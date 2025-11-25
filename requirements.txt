@@ -2,3 +2,5 @@ flask
 openai
 python-dotenv
 jinja2
+httpx
+anyio
