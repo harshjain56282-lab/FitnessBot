@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FitBot</title>
+</head>
+<body>
+    <h1>FitBot - Health & Fitness Assistant</h1>
+
+    <input id="message" placeholder="Ask something...">
+    <button onclick="sendMessage()">Send</button>
+
+    <p><strong>Bot:</strong> <span id="reply"></span></p>
+
+<script>
+async function sendMessage() {
+    const msg = document.getElementById("message").value;
+
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+    });
+
+    const data = await res.json();
+    document.getElementById("reply").innerText = data.reply;
+}
+</script>
+</body>
+</html>
