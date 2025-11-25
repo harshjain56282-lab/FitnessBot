@@ -3,9 +3,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 
-load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/")
@@ -21,21 +22,12 @@ def chat():
         if not user_input:
             return jsonify({"reply": "Please type something!"})
 
-        # New OpenAI API (2024–2025)
         response = client.responses.create(
-            model="gpt-4.1-mini",
-            input=f"""
-You are FitBot, a friendly health & fitness expert.
-Answer the following user input:
-
-{user_input}
-"""
+            model="gpt-4o-mini",
+            input=user_input
         )
 
-        bot_reply = response.output_text
-
-        return jsonify({"reply": bot_reply})
+        return jsonify({"reply": response.output_text})
 
     except Exception as e:
-        print("🔥 Error:", e)
-        return jsonify({"reply": f"⚠️ Server Error: {str(e)}"})
+        return jsonify({"reply": f"Server Error: {str(e)}"})
